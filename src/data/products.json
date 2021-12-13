@@ -1,0 +1,11 @@
+{
+    "products": [
+        {
+            "id": "fdsaçjflsafhusaof",
+            "name": "Manteiga",
+            "marca": "BomDemais",
+            "price": 5.99,
+            "shelfLive": 1
+        }
+    ]
+}
