@@ -1,6 +1,15 @@
-import IsVerifyProductProps, { ReturnFunctionVerifyProducts } from "./IsVerifyProductProps";
+import IsVerifyProductProps, 
+{ ReturnFunctionVerifyProducts } from "./IsVerifyProductProps";
+import { 
+    ChooseValidateType, 
+    DataOfChooseValidateProps,
+    isValidateProps
+} from "./chooseValidateProps";
 
 export {
     IsVerifyProductProps,
-    ReturnFunctionVerifyProducts
+    ReturnFunctionVerifyProducts,
+    ChooseValidateType,
+    DataOfChooseValidateProps,
+    isValidateProps
 }

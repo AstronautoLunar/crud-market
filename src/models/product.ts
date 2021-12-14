@@ -1,6 +1,9 @@
 import { 
     IsVerifyProductProps, 
-    ReturnFunctionVerifyProducts
+    ReturnFunctionVerifyProducts,
+    ChooseValidateType,
+    DataOfChooseValidateProps,
+    isValidateProps
 } from "../@types";
 
 import { data } from "../data";
@@ -69,6 +72,64 @@ function isVerifyProduct({
     }
 }
 
+//
+
+function chooseValidate (
+    type: ChooseValidateType, 
+    data: DataOfChooseValidateProps
+): isValidateProps {
+    const keys = Object.keys(data);
+    let isValidate: isValidateProps = {
+        description: "Não passou da validação",
+        passed: false
+    };
+
+    function isTypeValidate(callback) {
+        let error = "";
+
+        for(let key of keys) {
+            if(key === type) {
+                error = "O tipo existe nas propriedades do json";
+
+                callback(error);
+
+                return true;
+            } else {
+                error = "O tipo não existe nas propriedades do json";
+
+                callback(error);
+
+                return false;
+            }
+        }
+    } 
+
+    switch(type) {
+        case "name":
+        case "brand":
+        case "price":
+        case "shelfLive":
+            isTypeValidate((error: string) => {
+                if(error) {
+                    isValidate = {
+                        description: error,
+                        passed: false
+                    };
+                } else {
+                    isValidate = {
+                        description: error,
+                        passed: true
+                    };
+                }
+            });
+            break;
+        default:
+            return isValidate;
+    }
+}
+
+//
+
 export const getAllProducts = (request, response) => {
     response.json(JSON.stringify(data.products));
 }
@@ -117,4 +178,13 @@ export const sendProduct = (request, response) => {
 
         response.status(200).send("Salvo com sucesso");
     }
+}
+
+export const modifyProduct = (request, response) => {
+    const { type } = request.params;
+    const data = request.body;
+
+    chooseValidate(type, data);
+
+    response.send("test");
 }
