@@ -1,5 +1,5 @@
-import products from './products.json';
+import data from './products.json';
 
 export {
-    products
+    data
 }

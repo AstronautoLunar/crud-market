@@ -3,7 +3,15 @@ import {
     ReturnFunctionVerifyProducts
 } from "../@types";
 
-import { products } from "../data";
+import { data } from "../data";
+
+function createID():string {
+    const randomNumber = Math.random() * 10;
+    const valueString = String(randomNumber);
+    const ID = valueString.substring(2, valueString.length);
+
+    return ID;
+}
 
 function isVerifyProduct({ 
     name, 
@@ -19,24 +27,32 @@ function isVerifyProduct({
     function isExistsName() {
         if(name) {
             isNameString = typeof name === "string";
+        } else {
+            isBrandString = false;
         }
     }
     
     function isExistsBrand() {
         if(brand) {
             isBrandString = typeof brand === "string";
+        } else {
+            isBrandString = false;
         }
     }
 
     function isExistsPrice() {
         if(price) {
             isPriceNumber = typeof price === "number";
+        } else {
+            isPriceNumber = false;
         }
     }
 
     function isExistsShelfLive() {
         if(shelfLive) {
             isShelfLiveNumber = typeof shelfLive === "number";
+        } else {
+            isShelfLiveNumber = false;
         }
     }
 
@@ -46,38 +62,15 @@ function isVerifyProduct({
     isExistsShelfLive();
     
     return {
-        isNameString: 
-            isNameString 
-            ? 
-            isNameString 
-            : 
-            "Não foi incluido o name",
-
-        isBrandString: 
-            isBrandString 
-            ? 
-            isBrandString
-            : 
-            "Não foi incluido a marca",
-        
-        isPriceNumber: 
-            isPriceNumber 
-            ? 
-            isPriceNumber 
-            : 
-            "Não foi incluido o preço",
-
-        isShelfLiveNumber:
-            isShelfLiveNumber
-            ?
-            isShelfLiveNumber
-            :
-            "Não foi incluido a validação do produto"
+        isNameString,
+        isBrandString,
+        isPriceNumber,
+        isShelfLiveNumber
     }
 }
 
 export const getAllProducts = (request, response) => {
-    response.json(JSON.stringify(products));
+    response.json(JSON.stringify(data.products));
 }
 
 export const sendProduct = (request, response) => {
@@ -88,14 +81,40 @@ export const sendProduct = (request, response) => {
         shelfLive 
     } = request.body;
 
-    const verify = isVerifyProduct({
+    const {
+        isNameString,
+        isBrandString,
+        isPriceNumber,
+        isShelfLiveNumber
+    } = isVerifyProduct({
         name,
         brand,
         price,
         shelfLive
     })
 
-    console.log(verify);
+    const isNotVerifyToday = 
+        !isNameString
+        ||
+        !isBrandString
+        ||
+        !isPriceNumber
+        ||
+        !isShelfLiveNumber;
 
-    response.send("teste");
+    if(isNotVerifyToday) {
+        response.status(400).send("Tipo de dados invalido");
+    } else {
+        const newProducts = {
+            id: createID(),
+            name,
+            brand,
+            price,
+            shelfLive
+        }
+
+        data.products.push(newProducts);
+
+        response.status(200).send("Salvo com sucesso");
+    }
 }

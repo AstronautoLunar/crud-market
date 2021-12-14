@@ -6,10 +6,10 @@ interface IsVerifyProductProps {
 }
 
 export type ReturnFunctionVerifyProducts = { 
-    isNameString: boolean | string;
-    isBrandString: boolean | string;
-    isPriceNumber: boolean | string;
-    isShelfLiveNumber: boolean | string;
+    isNameString: boolean;
+    isBrandString: boolean;
+    isPriceNumber: boolean;
+    isShelfLiveNumber: boolean;
 };
 
 export default IsVerifyProductProps;
