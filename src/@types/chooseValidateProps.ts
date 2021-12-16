@@ -1,4 +1,6 @@
 type ChooseValidateType = 
+    "id"
+    |
     "name" 
     | 
     "brand" 
@@ -13,6 +15,7 @@ interface isValidateProps {
 }
 
 interface DataOfChooseValidateProps {
+    id: string;
     name: string;
     brand: string;
     price: number;

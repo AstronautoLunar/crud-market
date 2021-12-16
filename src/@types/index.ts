@@ -3,7 +3,7 @@ import IsVerifyProductProps,
 import { 
     ChooseValidateType, 
     DataOfChooseValidateProps,
-    isValidateProps
+    isValidateProps,
 } from "./chooseValidateProps";
 
 export {

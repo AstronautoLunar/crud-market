@@ -72,63 +72,43 @@ function isVerifyProduct({
     }
 }
 
-//
-
 function chooseValidate (
     type: ChooseValidateType, 
     data: DataOfChooseValidateProps
 ): isValidateProps {
+    
     const keys = Object.keys(data);
     let isValidate: isValidateProps = {
-        description: "Não passou da validação",
+        description: "O tipo não existe",
         passed: false
     };
 
-    function isTypeValidate(callback) {
-        let error = "";
+    for(let key of keys) {
+        if(key === type) {
+            isValidate = {
+                description: "A propriedade existe pelo qual você esteja tentando enviar",
+                passed: true
+            }
 
-        for(let key of keys) {
-            if(key === type) {
-                error = "O tipo existe nas propriedades do json";
-
-                callback(error);
-
-                return true;
-            } else {
-                error = "O tipo não existe nas propriedades do json";
-
-                callback(error);
-
-                return false;
+            break;
+        } else {
+            isValidate = {
+                description: "A propriedade não existe pelo qual você esteja tentando enviar",
+                passed: false
             }
         }
-    } 
+    }
 
     switch(type) {
         case "name":
         case "brand":
         case "price":
         case "shelfLive":
-            isTypeValidate((error: string) => {
-                if(error) {
-                    isValidate = {
-                        description: error,
-                        passed: false
-                    };
-                } else {
-                    isValidate = {
-                        description: error,
-                        passed: true
-                    };
-                }
-            });
-            break;
+            return isValidate;
         default:
             return isValidate;
     }
 }
-
-//
 
 export const getAllProducts = (request, response) => {
     response.json(JSON.stringify(data.products));
@@ -184,7 +164,13 @@ export const modifyProduct = (request, response) => {
     const { type } = request.params;
     const data = request.body;
 
-    chooseValidate(type, data);
+    const { description, passed } = chooseValidate(type, data);
 
-    response.send("test");
+    if(!passed) {
+        response.status(400).send(description);
+    } else {
+        response.send("test");
+    }
+
+
 }
