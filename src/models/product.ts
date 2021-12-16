@@ -3,7 +3,8 @@ import {
     ReturnFunctionVerifyProducts,
     ChooseValidateType,
     DataOfChooseValidateProps,
-    isValidateProps
+    isValidateProps,
+    ValidateTypeOfKeyProps
 } from "../@types";
 
 import { data } from "../data";
@@ -110,6 +111,12 @@ function chooseValidate (
     }
 }
 
+function validateTypeOfKey(value: ValidateTypeOfKeyProps): boolean {
+    console.log(value);
+
+    return false;
+}
+
 export const getAllProducts = (request, response) => {
     response.json(JSON.stringify(data.products));
 }
@@ -169,6 +176,9 @@ export const modifyProduct = (request, response) => {
     if(!passed) {
         response.status(400).send(description);
     } else {
+        const valueKeyOfData = data[type];
+
+        validateTypeOfKey(valueKeyOfData);
         response.send("test");
     }
 

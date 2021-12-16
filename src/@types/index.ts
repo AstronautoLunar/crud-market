@@ -5,11 +5,13 @@ import {
     DataOfChooseValidateProps,
     isValidateProps,
 } from "./chooseValidateProps";
+import ValidateTypeOfKeyProps from "./ValidateTypeOfKeyProps";
 
 export {
     IsVerifyProductProps,
     ReturnFunctionVerifyProducts,
     ChooseValidateType,
     DataOfChooseValidateProps,
-    isValidateProps
+    isValidateProps,
+    ValidateTypeOfKeyProps
 }
