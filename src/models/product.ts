@@ -128,7 +128,7 @@ function validateTypeOfKey({
         case "brand":
             return {
                 typeKey: "string",
-                passed: typeof valueKey === "string"
+                passedValidateType: typeof valueKey === "string"
 
             };
         
@@ -136,7 +136,7 @@ function validateTypeOfKey({
         case "shelfLive":
             return {
                 typeKey: "number",
-                passed: typeof valueKey === "number"
+                passedValidateType: typeof valueKey === "number"
             };
 
         default:
@@ -205,15 +205,15 @@ export const modifyProduct = (request, response) => {
     } else {
         const valueKeyOfData = data[type];
 
-        const { passed, typeKey } = validateTypeOfKey({ 
+        const { passedValidateType, typeKey } = validateTypeOfKey({ 
             valueKey: valueKeyOfData, 
             typeKey: type
         });
 
-        if(!passed) {
+        if(!passedValidateType) {
             response.status(400).send(`O valor que está tentando enviar para alteração não é do tipo ${ typeKey }`)
         } else {
-            response.status(200).send("O valor é do tipo esperado");
+            response.send("test");
         }
     }
 }

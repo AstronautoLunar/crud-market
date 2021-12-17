@@ -10,7 +10,7 @@ type ReturnValidateTypeOfKey = ObjectReturn | never;
 
 type ObjectReturn = {
     typeKey: string;
-    passed: boolean;
+    passedValidateType: boolean;
 }
 
 export {
