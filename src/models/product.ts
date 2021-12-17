@@ -4,7 +4,8 @@ import {
     ChooseValidateType,
     DataOfChooseValidateProps,
     isValidateProps,
-    ValidateTypeOfKeyProps
+    ValidateTypeOfKeyProps,
+    ReturnValidateTypeOfKey
 } from "../@types";
 
 import { data } from "../data";
@@ -85,7 +86,14 @@ function chooseValidate (
     };
 
     for(let key of keys) {
-        if(key === type) {
+        if(type === "id") {
+            isValidate = {
+                description: "Não pode alterar o id",
+                passed: false
+            }
+
+            break;
+        } else if(key === type) {
             isValidate = {
                 description: "A propriedade existe pelo qual você esteja tentando enviar",
                 passed: true
@@ -111,10 +119,29 @@ function chooseValidate (
     }
 }
 
-function validateTypeOfKey(value: ValidateTypeOfKeyProps): boolean {
-    console.log(value);
+function validateTypeOfKey({ 
+    typeKey, 
+    valueKey 
+}: ValidateTypeOfKeyProps): ReturnValidateTypeOfKey {
+    switch(typeKey) {
+        case "name":
+        case "brand":
+            return {
+                typeKey: "string",
+                passed: typeof valueKey === "string"
 
-    return false;
+            };
+        
+        case "price":
+        case "shelfLive":
+            return {
+                typeKey: "number",
+                passed: typeof valueKey === "number"
+            };
+
+        default:
+            throw new Error("Invalidate Type");
+    }
 }
 
 export const getAllProducts = (request, response) => {
@@ -178,9 +205,15 @@ export const modifyProduct = (request, response) => {
     } else {
         const valueKeyOfData = data[type];
 
-        validateTypeOfKey(valueKeyOfData);
-        response.send("test");
+        const { passed, typeKey } = validateTypeOfKey({ 
+            valueKey: valueKeyOfData, 
+            typeKey: type
+        });
+
+        if(!passed) {
+            response.status(400).send(`O valor que está tentando enviar para alteração não é do tipo ${ typeKey }`)
+        } else {
+            response.status(200).send("O valor é do tipo esperado");
+        }
     }
-
-
 }
