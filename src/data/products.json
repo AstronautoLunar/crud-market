@@ -6,6 +6,20 @@
             "brand": "BomDemais",
             "price": 5.99,
             "shelfLive": 1
+        },
+        {
+            "id": "174274017041040",
+            "name": "Pimenta",
+            "brand": "BomDemais",
+            "price": 2.99,
+            "shelfLive": 1
+        },
+        {
+            "id": "4792014701740104",
+            "name": "Macarrão",
+            "brand": "BomDemais",
+            "price": 1.99,
+            "shelfLive": 1
         }
     ]
 }

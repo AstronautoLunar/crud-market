@@ -5,7 +5,9 @@ import {
     DataOfChooseValidateProps,
     isValidateProps,
     ValidateTypeOfKeyProps,
-    ReturnValidateTypeOfKey
+    ReturnValidateTypeOfKey,
+    TypeParamsModifyProductProps,
+    ModifyEspecificProductProps
 } from "../@types";
 
 import { data } from "../data";
@@ -195,15 +197,15 @@ export const sendProduct = (request, response) => {
 }
 
 export const modifyProduct = (request, response) => {
-    const { type } = request.params;
-    const data = request.body;
+    const { type }:TypeParamsModifyProductProps = request.params;
+    const body = request.body;
 
-    const { description, passed } = chooseValidate(type, data);
+    const { description, passed } = chooseValidate(type, body);
 
     if(!passed) {
         response.status(400).send(description);
     } else {
-        const valueKeyOfData = data[type];
+        const valueKeyOfData = body[type];
 
         const { passedValidateType, typeKey } = validateTypeOfKey({ 
             valueKey: valueKeyOfData, 
@@ -213,7 +215,57 @@ export const modifyProduct = (request, response) => {
         if(!passedValidateType) {
             response.status(400).send(`O valor que está tentando enviar para alteração não é do tipo ${ typeKey }`)
         } else {
-            response.send("test");
+            
+
+            let index = data.products.findIndex(item => item.id === body.id);
+            
+            function modifyEspecificProduct({ 
+                typeKey, 
+                value 
+            }:ModifyEspecificProductProps) {
+                data.products[index] = { ...data.products[index], [typeKey]: value }
+            }
+            
+            function responseSuccessModify(value: string) {
+                response.status(200).send(`Alterado ${value} do produto com sucesso`);
+            }
+
+            switch(type) {
+                case "name":
+                    modifyEspecificProduct({
+                        typeKey: "name",
+                        value: body.name
+                    });
+                    responseSuccessModify("Nome");
+                    
+                    break;
+                case "brand":
+                    modifyEspecificProduct({
+                        typeKey: "brand",
+                        value: body.brand
+                    });
+                    responseSuccessModify("Marca");
+
+                    break;
+                case "price":
+                    modifyEspecificProduct({
+                        typeKey: "price",
+                        value: body.price
+                    });
+                    responseSuccessModify("Preço");
+
+                    break;
+                case "shelfLive":
+                    modifyEspecificProduct({
+                        typeKey: "shelfLive",
+                        value: body.shelfLive
+                    });
+                    responseSuccessModify("Vida Util");
+
+                    break;
+                default:
+                    response.status(500).send("Não foi possivel fazer a modificação do objeto, tipo invalido");
+            }
         }
     }
 }

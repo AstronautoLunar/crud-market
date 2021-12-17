@@ -4,11 +4,13 @@ import {
     ChooseValidateType, 
     DataOfChooseValidateProps,
     isValidateProps,
-} from "./chooseValidateProps";
+} from "./ChooseValidateProps";
 import {
     ValidateTypeOfKeyProps,
     ReturnValidateTypeOfKey
 } from "./ValidateTypeOfKeyProps";
+import TypeParamsModifyProductProps from "./TypeParamsModifyProductProps";
+import ModifyEspecificProductProps from "./ModifyEspecificProductProps";
 
 export {
     IsVerifyProductProps,
@@ -17,5 +19,7 @@ export {
     DataOfChooseValidateProps,
     isValidateProps,
     ValidateTypeOfKeyProps,
-    ReturnValidateTypeOfKey
+    ReturnValidateTypeOfKey,
+    TypeParamsModifyProductProps,
+    ModifyEspecificProductProps
 }
