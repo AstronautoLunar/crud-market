@@ -9,7 +9,6 @@ import {
     ValidateTypeOfKeyProps,
     ReturnValidateTypeOfKey
 } from "./ValidateTypeOfKeyProps";
-import TypeParamsModifyProductProps from "./TypeParamsModifyProductProps";
 import ModifyEspecificProductProps from "./ModifyEspecificProductProps";
 import {
     ValidateFullBodyProps,
@@ -25,7 +24,6 @@ export {
     isValidateProps,
     ValidateTypeOfKeyProps,
     ReturnValidateTypeOfKey,
-    TypeParamsModifyProductProps,
     ModifyEspecificProductProps,
     ValidateFullBodyProps,
     ReturnValidateFullBody,

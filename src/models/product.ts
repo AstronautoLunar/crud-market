@@ -6,12 +6,13 @@ import {
     isValidateProps,
     ValidateTypeOfKeyProps,
     ReturnValidateTypeOfKey,
-    TypeParamsModifyProductProps,
     ModifyEspecificProductProps,
     ValidateFullBodyProps,
     ReturnValidateFullBody,
     ModifyBodyFunctionProps
 } from "../@types";
+
+import express from 'express';
 
 import { data } from "../data";
 
@@ -211,7 +212,10 @@ function validateFullBody({
     };
 }
 
-export const getAllProducts = (request, response) => {
+export const getAllProducts = (
+        request: express.Request, 
+        response: express.Response
+) => {
     response.json(JSON.stringify(data.products));
 }
 
@@ -261,8 +265,11 @@ export const sendProduct = (request, response) => {
     }
 }
 
-export const modifyProductSpecific = (request, response) => {
-    const { type }:TypeParamsModifyProductProps = request.params;
+export const modifyProductSpecific = (
+    request: express.Request, 
+    response: express.Response
+) => {
+    const { type } = request.params;
     const body = request.body;
 
     const { description, passed } = chooseValidate(type, body);
@@ -335,7 +342,10 @@ export const modifyProductSpecific = (request, response) => {
     }
 }
 
-export const modifyProduct = (request, response) => {
+export const modifyProduct = (
+    request: express.Request, 
+    response: express.Response
+) => {
     const { 
         id, 
         name, 
@@ -386,5 +396,20 @@ export const modifyProduct = (request, response) => {
         );
 
         response.status(200).send("Alteração feita com sucesso");
+    }
+}
+
+export const deleteProduct = (
+    request: express.Request, 
+    response: express.Response
+) => {
+    const { id } = request.body;
+
+    const isIdString = typeof id === "string";
+
+    if(!isIdString) {
+        response.status(400).send("O id não é do tipo texto");
+    } else {
+        response.send("test");
     }
 }

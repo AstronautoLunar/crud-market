@@ -1,13 +1,4 @@
-type ChooseValidateType = 
-    "id"
-    |
-    "name" 
-    | 
-    "brand" 
-    | 
-    "price" 
-    | 
-    "shelfLive";
+type ChooseValidateType = string;
 
 interface isValidateProps {
     description: string;

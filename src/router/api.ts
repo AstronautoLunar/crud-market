@@ -4,7 +4,8 @@ import {
     getAllProducts,
     sendProduct,
     modifyProductSpecific,
-    modifyProduct
+    modifyProduct,
+    deleteProduct
 } from "../models/product";
 
 const router = Express.Router();
@@ -19,5 +20,8 @@ router.put("/modifyProductSpecific/:type",
 
 router.put("/modifyProduct", 
     bodyParser.json(), modifyProduct);
+
+router.delete("/deleteProduct", 
+    bodyParser.json(), deleteProduct);
 
 export default router;

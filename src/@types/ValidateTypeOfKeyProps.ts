@@ -3,8 +3,7 @@ interface ValidateTypeOfKeyProps {
     typeKey: typeKeyProps;
 }
 
-type typeKeyProps = 
-"name" | "brand" | "price" | "shelfLive";
+type typeKeyProps = string;
 
 type ReturnValidateTypeOfKey = ObjectReturn | never;
 
