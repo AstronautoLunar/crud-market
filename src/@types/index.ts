@@ -11,6 +11,10 @@ import {
 } from "./ValidateTypeOfKeyProps";
 import TypeParamsModifyProductProps from "./TypeParamsModifyProductProps";
 import ModifyEspecificProductProps from "./ModifyEspecificProductProps";
+import {
+    ValidateFullBodyProps,
+    ReturnValidateFullBody
+} from "./ValidateFullBodyProps";
 
 export {
     IsVerifyProductProps,
@@ -21,5 +25,7 @@ export {
     ValidateTypeOfKeyProps,
     ReturnValidateTypeOfKey,
     TypeParamsModifyProductProps,
-    ModifyEspecificProductProps
+    ModifyEspecificProductProps,
+    ValidateFullBodyProps,
+    ReturnValidateFullBody
 }

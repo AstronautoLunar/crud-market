@@ -7,7 +7,9 @@ import {
     ValidateTypeOfKeyProps,
     ReturnValidateTypeOfKey,
     TypeParamsModifyProductProps,
-    ModifyEspecificProductProps
+    ModifyEspecificProductProps,
+    ValidateFullBodyProps,
+    ReturnValidateFullBody
 } from "../@types";
 
 import { data } from "../data";
@@ -196,7 +198,7 @@ export const sendProduct = (request, response) => {
     }
 }
 
-export const modifyProduct = (request, response) => {
+export const modifyProductSpecific = (request, response) => {
     const { type }:TypeParamsModifyProductProps = request.params;
     const body = request.body;
 
@@ -268,4 +270,91 @@ export const modifyProduct = (request, response) => {
             }
         }
     }
+}
+
+function validateFullBody({ 
+    id, 
+    name, 
+    brand, 
+    price, 
+    shelfLive 
+}: ValidateFullBodyProps):ReturnValidateFullBody {
+    let messageError: string = "Passou da validação";
+
+    function setError({ conditional, message }) {
+        if(!conditional) {
+            messageError = message;
+        }
+    }
+
+    const isIdString = typeof id === "string";
+    const isNameString = typeof name === "string";
+    const isBrandString = typeof brand === "string";
+    const isPriceNumber = typeof price === "number";
+    const isShelfLiveNumber = typeof shelfLive === "number";
+    const isTodayValidate = 
+        isIdString 
+        && 
+        isNameString 
+        && 
+        isBrandString
+        && 
+        isPriceNumber 
+        && 
+        isShelfLiveNumber;
+    
+    setError({
+        conditional: isIdString,
+        message: "A propriedade 'id' que você está tentando modificar não é do tipo caracteres ou não existe"
+    });
+
+    setError({
+        conditional: isNameString,
+        message: "A propriedade 'name' que você está tentando modificar não é do tipo caracteres ou não existe"
+    });
+
+    setError({
+        conditional: isBrandString,
+        message: "A propriedade 'brand' que você está tentando modificar não é do tipo caracteres ou não existe"
+    });
+
+    setError({
+        conditional: isPriceNumber,
+        message: "A propriedade 'price' que você está tentando modificar não é do tipo número ou não existe"
+    });
+    
+    setError({
+        conditional: isShelfLiveNumber,
+        message: "A propriedade 'shelfLive' que você está tentando modificar não é do tipo número"
+    });
+
+    return {
+        messageError,
+        passed: isTodayValidate
+    };
+}
+
+export const modifyProduct = (request, response) => {
+    const { 
+        id, 
+        name, 
+        brand, 
+        price, 
+        shelfLive 
+    } = request.body;
+
+    const { 
+        messageError, 
+        passed 
+    } = validateFullBody({
+        id,
+        name,
+        brand,
+        price,
+        shelfLive
+    });
+
+    console.log(messageError, passed);
+
+    response.send("test");
 }

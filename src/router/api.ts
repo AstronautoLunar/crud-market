@@ -3,6 +3,7 @@ import bodyParser from "body-parser";
 import { 
     getAllProducts,
     sendProduct,
+    modifyProductSpecific,
     modifyProduct
 } from "../models/product";
 
@@ -13,7 +14,10 @@ router.get("/getAllProducts", getAllProducts);
 router.post("/sendProduct", 
     bodyParser.json(), sendProduct);
 
-router.put("/modifyProduct/:type", 
+router.put("/modifyProductSpecific/:type", 
+    bodyParser.json(), modifyProductSpecific);
+
+router.put("/modifyProduct", 
     bodyParser.json(), modifyProduct);
 
 export default router;
