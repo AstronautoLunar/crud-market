@@ -9,7 +9,8 @@ import {
     TypeParamsModifyProductProps,
     ModifyEspecificProductProps,
     ValidateFullBodyProps,
-    ReturnValidateFullBody
+    ReturnValidateFullBody,
+    ModifyBodyFunctionProps
 } from "../@types";
 
 import { data } from "../data";
@@ -148,6 +149,68 @@ function validateTypeOfKey({
     }
 }
 
+function validateFullBody({ 
+    id, 
+    name, 
+    brand, 
+    price, 
+    shelfLive 
+}: ValidateFullBodyProps):ReturnValidateFullBody {
+    let messageError: string = "Passou da validação";
+
+    function setError({ conditional, message }) {
+        if(!conditional) {
+            messageError = message;
+        }
+    }
+
+    const isIdString = typeof id === "string";
+    const isNameString = typeof name === "string";
+    const isBrandString = typeof brand === "string";
+    const isPriceNumber = typeof price === "number";
+    const isShelfLiveNumber = typeof shelfLive === "number";
+    const isTodayValidate = 
+        isIdString 
+        && 
+        isNameString 
+        && 
+        isBrandString
+        && 
+        isPriceNumber 
+        && 
+        isShelfLiveNumber;
+    
+    setError({
+        conditional: isIdString,
+        message: "A propriedade 'id' que você está tentando modificar não é do tipo caracteres ou não existe"
+    });
+
+    setError({
+        conditional: isNameString,
+        message: "A propriedade 'name' que você está tentando modificar não é do tipo caracteres ou não existe"
+    });
+
+    setError({
+        conditional: isBrandString,
+        message: "A propriedade 'brand' que você está tentando modificar não é do tipo caracteres ou não existe"
+    });
+
+    setError({
+        conditional: isPriceNumber,
+        message: "A propriedade 'price' que você está tentando modificar não é do tipo número ou não existe"
+    });
+    
+    setError({
+        conditional: isShelfLiveNumber,
+        message: "A propriedade 'shelfLive' que você está tentando modificar não é do tipo número"
+    });
+
+    return {
+        messageError,
+        passed: isTodayValidate
+    };
+}
+
 export const getAllProducts = (request, response) => {
     response.json(JSON.stringify(data.products));
 }
@@ -272,68 +335,6 @@ export const modifyProductSpecific = (request, response) => {
     }
 }
 
-function validateFullBody({ 
-    id, 
-    name, 
-    brand, 
-    price, 
-    shelfLive 
-}: ValidateFullBodyProps):ReturnValidateFullBody {
-    let messageError: string = "Passou da validação";
-
-    function setError({ conditional, message }) {
-        if(!conditional) {
-            messageError = message;
-        }
-    }
-
-    const isIdString = typeof id === "string";
-    const isNameString = typeof name === "string";
-    const isBrandString = typeof brand === "string";
-    const isPriceNumber = typeof price === "number";
-    const isShelfLiveNumber = typeof shelfLive === "number";
-    const isTodayValidate = 
-        isIdString 
-        && 
-        isNameString 
-        && 
-        isBrandString
-        && 
-        isPriceNumber 
-        && 
-        isShelfLiveNumber;
-    
-    setError({
-        conditional: isIdString,
-        message: "A propriedade 'id' que você está tentando modificar não é do tipo caracteres ou não existe"
-    });
-
-    setError({
-        conditional: isNameString,
-        message: "A propriedade 'name' que você está tentando modificar não é do tipo caracteres ou não existe"
-    });
-
-    setError({
-        conditional: isBrandString,
-        message: "A propriedade 'brand' que você está tentando modificar não é do tipo caracteres ou não existe"
-    });
-
-    setError({
-        conditional: isPriceNumber,
-        message: "A propriedade 'price' que você está tentando modificar não é do tipo número ou não existe"
-    });
-    
-    setError({
-        conditional: isShelfLiveNumber,
-        message: "A propriedade 'shelfLive' que você está tentando modificar não é do tipo número"
-    });
-
-    return {
-        messageError,
-        passed: isTodayValidate
-    };
-}
-
 export const modifyProduct = (request, response) => {
     const { 
         id, 
@@ -354,7 +355,36 @@ export const modifyProduct = (request, response) => {
         shelfLive
     });
 
-    console.log(messageError, passed);
+    function modifyBody(index: number, {
+        name,
+        brand,
+        price,
+        shelfLive
+    }: ModifyBodyFunctionProps) {
+        data.products[index] = { 
+            ...data.products[index], 
+            name,
+            brand,
+            price,
+            shelfLive
+        };
+    }
 
-    response.send("test");
+    if(!passed) {
+        response.status(400).send(messageError);
+    } else {
+        const index = data.products.findIndex(item => item.id === id);
+
+        modifyBody(
+            index,
+            {
+                name,
+                brand,
+                price,
+                shelfLive
+            }
+        );
+
+        response.status(200).send("Alteração feita com sucesso");
+    }
 }

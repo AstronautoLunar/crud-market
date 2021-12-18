@@ -15,6 +15,7 @@ import {
     ValidateFullBodyProps,
     ReturnValidateFullBody
 } from "./ValidateFullBodyProps";
+import ModifyBodyFunctionProps from "./modifyBodyFunctionProps";
 
 export {
     IsVerifyProductProps,
@@ -27,5 +28,6 @@ export {
     TypeParamsModifyProductProps,
     ModifyEspecificProductProps,
     ValidateFullBodyProps,
-    ReturnValidateFullBody
+    ReturnValidateFullBody,
+    ModifyBodyFunctionProps
 }
