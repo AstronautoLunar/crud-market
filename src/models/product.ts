@@ -410,6 +410,10 @@ export const deleteProduct = (
     if(!isIdString) {
         response.status(400).send("O id não é do tipo texto");
     } else {
-        response.send("test");
+        const newData = data.products.filter(item => item.id !== id);
+
+        data.products = newData;
+
+        response.status(200).send("Apagado com sucesso");
     }
 }
