@@ -12,7 +12,7 @@
 * [Tecnologias](#Tecnologias)
 
 <h4 align="center">
- :construction: Em construção :construction:
+ ✅ Concluído ✅
 </h4>
 
 ## Sobre
@@ -116,7 +116,7 @@ Envia para o servidor o produto no formato de json com a seguinte estrutura:
 
 Fiz duas rotas do tipo put para resolver problemas diferentes
 
-A rota para modificar o produto todo é esse:
+A rota para modificar o produto completo é esse:
 
 ```
 localhost:4444/api/modifyProduct
@@ -149,9 +149,7 @@ price
 shelfLive
 ```
 
-Fora deles o servidor vai retornar uma resposta com status 500 indicando que o tipo é invalido, ainda
-vai ser feito modificações para alterar esse tipo de resposta, pois ela faz com que o servidor pare de funcionar
-e não é isso que queremos que aconteça
+Fora deles o servidor vai retornar uma resposta com status 400 com um texto dizendo que o tipo é invalido
 
 Caso queira modificar o "name" do produto em especifico, você envia da seguinte maneira:
 
