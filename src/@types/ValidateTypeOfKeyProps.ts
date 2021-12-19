@@ -1,15 +1,12 @@
 interface ValidateTypeOfKeyProps {
     valueKey: string | number;
-    typeKey: typeKeyProps;
+    typeKey: string;
 }
 
-type typeKeyProps = string;
-
-type ReturnValidateTypeOfKey = ObjectReturn | never;
-
-type ObjectReturn = {
+type ReturnValidateTypeOfKey = {
     typeKey: string;
     passedValidateType: boolean;
+    messageError: string,
 }
 
 export {

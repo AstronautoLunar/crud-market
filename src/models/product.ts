@@ -132,21 +132,42 @@ function validateTypeOfKey({
     switch(typeKey) {
         case "name":
         case "brand":
+            const isKeyString = typeof valueKey === "string";
+
             return {
                 typeKey: "string",
-                passedValidateType: typeof valueKey === "string"
-
+                passedValidateType: isKeyString,
+                messageError: `Tipo Permitido, ${
+                    isKeyString 
+                    ? 
+                    "Passou da validação" 
+                    : 
+                    "Mas não passou da validação pois o valor da chave não é do tipo número"
+                }`
             };
         
         case "price":
         case "shelfLive":
+            const isKeyNumber = typeof valueKey === "number";
+        
             return {
                 typeKey: "number",
-                passedValidateType: typeof valueKey === "number"
+                passedValidateType: isKeyNumber,
+                messageError: `Tipo Permitido, ${
+                    isKeyNumber
+                    ? 
+                    "Passou da validação" 
+                    : 
+                    "Mas não passou da validação pois o valor da chave não é do tipo número"
+                }`
             };
-
+            
         default:
-            throw new Error("Invalidate Type");
+            return {
+                typeKey: "Tipo Chave não identificado",
+                passedValidateType: false,
+                messageError: "Tipo não permitido"
+            };
     }
 }
 
@@ -279,16 +300,17 @@ export const modifyProductSpecific = (
     } else {
         const valueKeyOfData = body[type];
 
-        const { passedValidateType, typeKey } = validateTypeOfKey({ 
+        const { 
+            passedValidateType, 
+            messageError 
+        } = validateTypeOfKey({ 
             valueKey: valueKeyOfData, 
             typeKey: type
         });
 
         if(!passedValidateType) {
-            response.status(400).send(`O valor que está tentando enviar para alteração não é do tipo ${ typeKey }`)
+            response.status(400).send(messageError);
         } else {
-            
-
             let index = data.products.findIndex(item => item.id === body.id);
             
             function modifyEspecificProduct({ 
